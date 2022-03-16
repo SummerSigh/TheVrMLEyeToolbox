@@ -17,5 +17,5 @@ A repo containing several methods for near eye gaze tracking in HMDs
 
 
 Implemented methods:
-- [] YoloV5 iris detection with elips fitting 
-- [] 2d to 3d point infrence using DeepVog method 
+- [ ] YoloV5 iris detection with elips fitting 
+- [ ] 2d to 3d point infrence using DeepVog method 
