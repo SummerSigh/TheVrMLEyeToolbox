@@ -9,7 +9,7 @@ model.multi_label = False  # NMS multiple labels per box
 model.max_det = 1 # maximum number of detections per image
 model.amp = False  # Automatic Mixed Precision (AMP) inference
 
-img = cv2.VideoCapture("Raw.mp4") #Change the path to your video file
+img = cv2.VideoCapture("Test.mp4") #Change the path to your video file
 while(img.isOpened()):
     ret, frame = img.read() # read a frame
     results = model(frame)  # inference
