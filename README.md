@@ -17,8 +17,9 @@ A repo containing several methods for near eye gaze tracking in HMDs
 
 
 Implemented methods:
-- [ ] YoloV5 iris detection with ellipse fitting
-- [ ] 2d to 3d point infrence using DeepVog method 
+- [X] YoloV5 iris detection (ML model is subject to updates)
+- [ ] Implementation of RITnet for sematic segementaion
+- [ ] 2d to 3d point infrence using calibration based 3d model fitting
 - [ ] Glint tracking
 - [ ] EMG Facial interface for Eye muscle tracking (Hardwear will be provided here) 
 - [ ] Landmark Based tracking
