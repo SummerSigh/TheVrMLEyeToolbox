@@ -5,7 +5,7 @@ A repo containing several methods for near eye gaze tracking in HMDs
 
 *What is this all about?*
 
-- this repo is for the EyetrackVR project aiming to make VR eyetracking opensource and avable to everyone. More specificly, this repo focuases on ML or ML fusion methods for eye tracking.
+- this repo is for the EyetrackVR project aiming to make VR eyetracking opensource and avable to everyone. More specifically, this repo focuases on ML or ML fusion methods for eye tracking.
 
 *What can I do to help?* 
 
