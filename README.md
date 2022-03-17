@@ -1,4 +1,4 @@
-# VrEyeToolbox
+![GitHub Logo](/images/logo.png)
 A repo containing several methods for near eye gaze tracking in HMDs
 
 **This Repo is a work in progress**
