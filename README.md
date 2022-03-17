@@ -20,4 +20,5 @@ Implemented methods:
 - [ ] YoloV5 iris detection with ellipse fitting
 - [ ] 2d to 3d point infrence using DeepVog method 
 - [ ] Glint tracking
-- [ ] EMG Facial interface for Eye muscle tracking (hardwear will be provided here) 
+- [ ] EMG Facial interface for Eye muscle tracking (Hardwear will be provided here) 
+- [ ] Landmark Based tracking
