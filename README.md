@@ -1,4 +1,4 @@
-![GitHub Logo](/images/logo.png)
+![GitHub Logo](/images/My project.png)
 A repo containing several methods for near eye gaze tracking in HMDs
 
 **This Repo is a work in progress**
