@@ -5,7 +5,7 @@ A repo containing several methods for near eye gaze tracking in HMDs
 
 *What is this all about?*
 
-- this repo is for the EyetrackVR project aiming to make VR eyetracking opensource and avable to everyone. More specifically, this repo focuases on ML or ML fusion methods for eye tracking.
+- this repo is for the EyetrackVR project aiming to make VR eyetracking opensource and available to everyone. More specifically, this repo focuses on ML or DL based approaches for eye tracking.
 
 *What can I do to help?* 
 
@@ -17,8 +17,38 @@ A repo containing several methods for near eye gaze tracking in HMDs
 
 
 Implemented methods:
-- [ ] YoloV5 iris detection with ellipse fitting
-- [ ] 2d to 3d point infrence using DeepVog method 
+- [X] YoloV5 iris detection (ML model is subject to updates)
+- [ ] Implementation of RITnet for sematic segementaion
+- [ ] 2d to 3d point infrence using calibration based 3d model fitting
 - [ ] Glint tracking
 - [ ] EMG Facial interface for Eye muscle tracking (Hardwear will be provided here) 
 - [ ] Landmark Based tracking
+
+**NOTE: Some of these implemented methods will be from other authors and maybe subject to licencing.**
+
+
+
+
+
+
+***Citations for the people who make this all possible***
+
+@inproceedings{chaudhary2019ritnet,
+  title={RITnet: real-time semantic segmentation of the eye for gaze tracking},
+  author={Chaudhary, Aayush K and Kothari, Rakshit and Acharya, Manoj and Dangi, Shusil and Nair, Nitinraj and Bailey, Reynold and Kanan, Christopher and Diaz, Gabriel and Pelz, Jeff B},
+  booktitle={2019 IEEE/CVF International Conference on Computer Vision Workshop (ICCVW)},
+  pages={3698--3702},
+  year={2019},
+  organization={IEEE}
+}
+
+@article{yiu2019deepvog,
+  title={DeepVOG: Open-source Pupil Segmentation and Gaze Estimation in Neuroscience using Deep Learning},
+  author={Yiu, Yuk-Hoi and Aboulatta, Moustafa and Raiser, Theresa and Ophey, Leoni and Flanagin, Virginia L and zu Eulenburg, Peter and Ahmadi, Seyed-Ahmad},
+  journal={Journal of neuroscience methods},
+  year={2019},
+  publisher={Elsevier}
+}
+
+
+
