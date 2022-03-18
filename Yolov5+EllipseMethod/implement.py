@@ -2,14 +2,14 @@ import torch
 import cv2
 # loads a video file and returns bounding box detections
 model = torch.hub.load('ultralytics/yolov5', 'custom', path='best.pt',force_reload=True)
-model.conf = 0.1  # NMS confidence threshold
-model.iou = 0.45  # NMS IoU threshold
+model.conf = 0.5  # NMS confidence threshold
+model.iou = 0.3  # NMS IoU threshold
 model.agnostic = False  # NMS class-agnostic
 model.multi_label = False  # NMS multiple labels per box
 model.max_det = 1 # maximum number of detections per image
 model.amp = False  # Automatic Mixed Precision (AMP) inference
 
-img = cv2.VideoCapture("Test.mp4") #Change the path to your video file
+img = cv2.VideoCapture("Video.mp4") #Change the path to your video file
 while(img.isOpened()):
     ret, frame = img.read() # read a frame
     results = model(frame)  # inference
