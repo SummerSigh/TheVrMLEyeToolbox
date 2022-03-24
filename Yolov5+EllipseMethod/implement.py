@@ -1,18 +1,20 @@
 import torch
 import cv2
+import numpy as np
 # loads a video file and returns bounding box detections
 model = torch.hub.load('ultralytics/yolov5', 'custom', path='best.pt',force_reload=True)
-model.conf = 0.5  # NMS confidence threshold
-model.iou = 0.3  # NMS IoU threshold
+model.conf = 0.1  # NMS confidence threshold
+model.iou = 0.1  # NMS IoU threshold
 model.agnostic = False  # NMS class-agnostic
 model.multi_label = False  # NMS multiple labels per box
 model.max_det = 1 # maximum number of detections per image
-model.amp = False  # Automatic Mixed Precision (AMP) inference
-
-img = cv2.VideoCapture("Video.mp4") #Change the path to your video file
+model.amp = True  # Automatic Mixed Precision (AMP) inference
+   
+img = cv2.VideoCapture("test2") #Change the path to your video file
 while(img.isOpened()):
     ret, frame = img.read() # read a frame
     results = model(frame)  # inference
+    #blur images
     try:
         for box in results.xyxy[0]:   # box is a list of 4 numbers
             if box[5]==0:       # if the confidence is 0, then skip       
