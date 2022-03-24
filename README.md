@@ -18,7 +18,7 @@ A repo containing several methods for near eye gaze tracking in HMDs
 
 Implemented methods:
 - [X] YoloV5 iris detection (ML model is subject to updates)
-- [ ] Implementation of RITnet for sematic segementaion
+- [ ] Pupil Locator CNN Model <----- current best 
 - [ ] 2d to 3d point infrence using calibration based 3d model fitting
 - [ ] Glint tracking
 - [ ] EMG Facial interface for Eye muscle tracking (Hardwear will be provided here) 
@@ -49,6 +49,12 @@ Implemented methods:
   year={2019},
   publisher={Elsevier}
 }
+
+Shaharam Eivazi, Thiago Santini, Alireza Keshavarzi, Thomas Kübler, and Andrea Mazzei. 2019.
+Improving real-time CNN-based pupil detection through domain-specific data augmentation.
+In Proceedings of the 11th ACM Symposium on Eye Tracking Research & Applications (ETRA ’19).
+Association for Computing Machinery, New York, NY, USA, Article 40, 1–6.
+DOI:https://doi.org/10.1145/3314111.3319914
 
 
 
