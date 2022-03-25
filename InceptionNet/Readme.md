@@ -4,9 +4,9 @@
 
 This Model is a hybrid model inspiered by YOLO, Network in Network (NiN) cnns and using YINInception as the core CNN to predict the pupil location inside the image of the eye.
 
-**Why did you the techique named InceptionNet if thats not what its called?**
+**Why did you name the techique InceptionNet if thats not what its called?**
 
-The authors of the original paper did not specifiy a name, and since its super close to InceptionNet I just called it that
+The authors of the original paper did not specifiy a name, and since its super close to InceptionNet I just named it that
 
 **How good is this method**
 
