@@ -10,5 +10,5 @@ The authors of the original paper did not specifiy a name, and since its super c
 
 **How good is this method**
 
-In terms of easy of implementaion and accuracy its currently one of the best methods of eye tracking in this repo
+In terms of ease of implementaion and accuracy its currently one of the best methods of eye tracking in this repo
 
