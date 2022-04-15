@@ -19,10 +19,10 @@ A repo containing several methods for near eye gaze tracking in HMDs
 Implemented methods:
 - [X] YoloV5 iris detection (ML model is subject to updates)
 - [X] Pupil Locator CNN Model <----- current best 
+- [X] RANSAC Contors <----- Contender for best system
 - [ ] 2d to 3d point infrence using calibration based 3d model fitting
 - [ ] Glint tracking
-- [ ] EMG Facial interface for Eye muscle tracking (Hardwear will be provided here) 
-- [ ] Landmark Based tracking
+- [ ] EMG Facial interface for Eye muscle tracking (Hardwere will be provided here) 
 
 **NOTE: Some of these implemented methods will be from other authors and maybe subject to licencing.**
 

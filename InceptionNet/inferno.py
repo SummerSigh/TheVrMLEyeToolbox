@@ -85,6 +85,7 @@ def main(
             image = gray_normalizer(frame)
             image = change_channel(image, config["input_channel"])
             [p] = model.predict(sess, [image])
+            print(p)
             cv2.circle(frame, (int(p[0]), int(p[1])), int(p[2]), (0, 0, 255), 2)
             cv2.circle(frame, (int(p[0]), int(p[1])), 1, (0, 0, 255), -1)
             cv2.imshow("frame", frame)
