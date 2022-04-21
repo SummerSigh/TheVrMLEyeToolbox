@@ -22,7 +22,7 @@ Implemented methods:
 - [X] RANSAC Contors <----- Contender for best system
 - [ ] 2d to 3d point infrence using calibration based 3d model fitting
 - [ ] Glint tracking
-- [ ] EMG Facial interface for Eye muscle tracking (Hardwere will be provided here) 
+- [ ] EMG Facial interface for Eye muscle tracking (Hardware will be provided here) 
 
 **NOTE: Some of these implemented methods will be from other authors and maybe subject to licencing.**
 
