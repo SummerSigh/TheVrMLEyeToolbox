@@ -1,12 +1,9 @@
 import cv2
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
-from time import time
 
 
 def fit_rotated_ellipse_ransac(
-    data, iter=80, sample_num=10, offset=80.0
+    data, iter=80, sample_num=10, offset=80    # 80.0, 10, 80
 ):  # before changing these values, please read up on the ransac algorithm
     # However if you want to change any value just know that higher iterations will make processing frames slower
     count_max = 0
@@ -92,21 +89,7 @@ def fit_rotated_ellipse(data):
 
     return (cx, cy, w, h, theta)
 
-
-def increase_brightness(img, value):
-    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-    h, s, v = cv2.split(hsv)
-
-    lim = 255 - value
-    v[v > lim] = 255
-    v[v <= lim] += value
-
-    final_hsv = cv2.merge((h, s, v))
-    img = cv2.cvtColor(final_hsv, cv2.COLOR_HSV2BGR)
-    return img
-
-
-cap = cv2.VideoCapture("Video.mp4")  # change this to the video you want to test
+cap = cv2.VideoCapture("index.mp4")  # change this to the video you want to test
 if cap.isOpened() == False:
     print("Error opening video stream or file")
 while cap.isOpened():
@@ -116,7 +99,7 @@ while cap.isOpened():
         kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
         image_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         ret, thresh = cv2.threshold(
-            image_gray, 90, 255, cv2.THRESH_BINARY
+            image_gray, 120, 255, cv2.THRESH_BINARY
         )  # this will need to be adjusted everytime hardwere is changed (brightness of IR, Camera postion, etc)
         opening = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel)
         closing = cv2.morphologyEx(opening, cv2.MORPH_CLOSE, kernel)
@@ -146,9 +129,10 @@ while cap.isOpened():
                 (50, 250, 200),
                 1,
             )
+            fps = cap.get(cv2.CAP_PROP_FPS)
+            print("Frames per second using video.get(cv2.CAP_PROP_FPS) : {0}".format(fps))
         except:
             pass
         cv2.imshow("Ransac", newImage2)
-        cv2.imshow("gray", image_gray)
         if cv2.waitKey(1) & 0xFF == ord("q"):
             break

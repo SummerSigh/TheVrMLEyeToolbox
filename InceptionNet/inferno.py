@@ -76,7 +76,7 @@ def main(
 
         # load best model
         model = load_model(sess, m_type, m_name)  # load the best model
-        cap = cv2.VideoCapture(0)  # load the camera
+        cap = cv2.VideoCapture("test.mp4")  # load the camera
         while cap.isOpened():
             ret, frame = cap.read()
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -99,7 +99,4 @@ if __name__ == "__main__":
     model_name = "3A4Bh-Ref25"
     model_type = "INC"
     video_path = 0
-
-    # initial a logger
-
     main(model_type, model_name)
