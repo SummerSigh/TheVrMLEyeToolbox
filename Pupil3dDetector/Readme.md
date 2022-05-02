@@ -21,5 +21,5 @@ We can also improve the predictions of RANSAC by excluding all false posotives o
 
 Please refer to RANSAC3d.py for an implemetation example
 
-
+***NOTE, THIS WILL ONLY WORK IN PYTHON 3.6***
 
