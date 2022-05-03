@@ -1,6 +1,7 @@
+from threading import Thread
 import cv2
 import numpy as np
-
+from pye3dcustom.detector_3d import CameraModel, Detector3D, DetectorMode
 
 def fit_rotated_ellipse_ransac(
     data, iter=80, sample_num=10, offset=80    # 80.0, 10, 80
@@ -85,21 +86,30 @@ def fit_rotated_ellipse(data):
     ellipse_model = lambda x, y: a * x**2 + b * x * y + c * y**2 + d * x + e * y + f
 
     error_sum = np.sum([ellipse_model(x, y) for x, y in data])
-    print("fitting error = %.3f" % (error_sum))
 
     return (cx, cy, w, h, theta)
 
-cap = cv2.VideoCapture("index.mp4")  # change this to the video you want to test
+cap = cv2.VideoCapture("neareye.mp4")  # change this to the video you want to test
+result_2d = {}
+result_2d_final = {}
 if cap.isOpened() == False:
     print("Error opening video stream or file")
 while cap.isOpened():
     ret, img = cap.read()
+    frame_number = cap.get(cv2.CAP_PROP_POS_FRAMES)
+    fps = cap.get(cv2.CAP_PROP_FPS)
+    # get resolution
+    width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
+    print("width:", width)
+    height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
+    camera = CameraModel(focal_length=4.2, resolution=[width, height])
+    detector_3d = Detector3D(camera=camera, long_term_mode=DetectorMode.blocking)
     if ret == True:
         newImage2 = img.copy()
         kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
         image_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         ret, thresh = cv2.threshold(
-            image_gray, 120, 255, cv2.THRESH_BINARY
+            image_gray, 80, 255, cv2.THRESH_BINARY
         )  # this will need to be adjusted everytime hardwere is changed (brightness of IR, Camera postion, etc)
         opening = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel)
         closing = cv2.morphologyEx(opening, cv2.MORPH_CLOSE, kernel)
@@ -116,22 +126,30 @@ while cap.isOpened():
             maxcnt = cnt[-1]
             ellipse = cv2.fitEllipse(maxcnt)
             cx, cy, w, h, theta = fit_rotated_ellipse_ransac(maxcnt.reshape(-1, 2))
-            print(cx, cy)
-            cv2.circle(newImage2, (int(cx), int(cy)), 2, (0, 0, 255), -1)
-            cx1, cy1, w1, h1, theta1 = fit_rotated_ellipse(maxcnt.reshape(-1, 2))
+            #get axis and angle of ellipse pupil labs 2d  
+            result_2d["center"] = (cx, cy)
+            result_2d["axes"] = (w, h) 
+            result_2d["angle"] = theta * 180.0 / np.pi 
+            result_2d_final["ellipse"] = result_2d
+            result_2d_final["diameter"] = w 
+            result_2d_final["location"] = (cx, cy)
+            result_2d_final["confidence"] = 0.99
+            result_2d_final["timestamp"] = frame_number / fps
+            result_3d = detector_3d.update_and_detect(result_2d_final, image_gray)
+            ellipse_3d = result_3d["ellipse"]
             cv2.ellipse(
-                newImage2,
-                (int(cx), int(cy)),
-                (int(w), int(h)),
-                theta * 180.0 / np.pi,
-                0.0,
-                360.0,
-                (50, 250, 200),
-                1,
-            )
-                 
+                image_gray,
+                tuple(int(v) for v in ellipse_3d["center"]),
+                tuple(int(v) for v in ellipse_3d["axes"]),
+                ellipse_3d["angle"],
+                0,
+                360,  # start/end angle for drawing
+                (0, 255, 0),  # color (BGR): red
+            )  
         except:
-            pass
-        cv2.imshow("Ransac", newImage2)
+             pass
+        
+        cv2.imshow("Ransac", image_gray)
+        cv2.imshow("Original", thresh)
         if cv2.waitKey(1) & 0xFF == ord("q"):
             break
