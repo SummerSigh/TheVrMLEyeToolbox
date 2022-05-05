@@ -4,7 +4,7 @@ import numpy as np
 from pye3dcustom.detector_3d import CameraModel, Detector3D, DetectorMode
 
 def fit_rotated_ellipse_ransac(
-    data, iter=80, sample_num=10, offset=80    # 80.0, 10, 80
+    data, iter=20, sample_num=10, offset=80    # 80.0, 10, 80
 ):  # before changing these values, please read up on the ransac algorithm
     # However if you want to change any value just know that higher iterations will make processing frames slower
     count_max = 0
@@ -89,32 +89,57 @@ def fit_rotated_ellipse(data):
 
     return (cx, cy, w, h, theta)
 
-cap = cv2.VideoCapture("neareye.mp4")  # change this to the video you want to test
+focal_slider_max = 100
+current_focal = 0
+title_window = "Ransac"
+def on_trackbar(val):
+    global current_focal
+    current_focal = val
+    return CameraModel(focal_length=val, resolution=[height, width])
+
+cv2.namedWindow("Ransac")
+trackbar_name = 'Focal %d' % focal_slider_max
+cv2.createTrackbar(trackbar_name, title_window , 60, focal_slider_max, on_trackbar)
+
+cap = cv2.VideoCapture("index.mp4")  # change this to the video you want to test
 result_2d = {}
 result_2d_final = {}
+
+ret, img = cap.read()
+frame_number = cap.get(cv2.CAP_PROP_POS_FRAMES)
+fps = cap.get(cv2.CAP_PROP_FPS)
+width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
+height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
+
+camera = CameraModel(focal_length=current_focal, resolution=[height, width])
+
+detector_3d = Detector3D(camera=camera, long_term_mode=DetectorMode.blocking)
+
 if cap.isOpened() == False:
     print("Error opening video stream or file")
 while cap.isOpened():
     ret, img = cap.read()
     frame_number = cap.get(cv2.CAP_PROP_POS_FRAMES)
-    fps = cap.get(cv2.CAP_PROP_FPS)
-    # get resolution
-    width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
-    print("width:", width)
-    height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
-    camera = CameraModel(focal_length=4.2, resolution=[width, height])
-    detector_3d = Detector3D(camera=camera, long_term_mode=DetectorMode.blocking)
     if ret == True:
         newImage2 = img.copy()
         kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
         image_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         ret, thresh = cv2.threshold(
-            image_gray, 80, 255, cv2.THRESH_BINARY
+            image_gray, 70, 255, cv2.THRESH_BINARY
         )  # this will need to be adjusted everytime hardwere is changed (brightness of IR, Camera postion, etc)
-        opening = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel)
-        closing = cv2.morphologyEx(opening, cv2.MORPH_CLOSE, kernel)
+        
+        # erosion 
+        erosion_size = 5
+        erosion_shape = cv2.MORPH_ELLIPSE
+        element = cv2.getStructuringElement(erosion_shape, (2 * erosion_size + 1, 2 * erosion_size + 1),
+                                       (erosion_size, erosion_size))
+        erosion = cv2.erode(thresh, element)
+        cv2.imshow("erode", erosion)
+        
+        opening = cv2.morphologyEx(erosion, cv2.MORPH_OPEN, kernel)
+        closing = cv2.morphologyEx(erosion, cv2.MORPH_CLOSE, kernel)
         image = 255 - closing
-        contours, hierarchy = cv2.findContours(
+        extraImage, contours, hierarchy = cv2.findContours(
             image, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE
         )
         hull = []
@@ -137,6 +162,8 @@ while cap.isOpened():
             result_2d_final["timestamp"] = frame_number / fps
             result_3d = detector_3d.update_and_detect(result_2d_final, image_gray)
             ellipse_3d = result_3d["ellipse"]
+            
+            # draw pupil
             cv2.ellipse(
                 image_gray,
                 tuple(int(v) for v in ellipse_3d["center"]),
@@ -145,7 +172,32 @@ while cap.isOpened():
                 0,
                 360,  # start/end angle for drawing
                 (0, 255, 0),  # color (BGR): red
-            )  
+            )
+            projected_sphere = result_3d["projected_sphere"]
+
+            print("sphere   ", tuple("{:8.5f}".format(v) for v in result_3d["sphere"]["center"]), "{:7.5f}".format(result_3d["sphere"]["radius"]))
+            print("circle_3d", tuple("{:8.5f}".format(v) for v in result_3d["circle_3d"]["center"]), "{:7.5f}".format(result_3d["circle_3d"]["radius"]))
+            # print("ellipse         ", tuple("{:9.5f}".format(v) for v in result_3d["ellipse"]["center"]), tuple("{:9.5f}".format(v) for v in result_3d["ellipse"]["axes"]), "{:7.5f}".format(result_3d["ellipse"]["angle"]))
+            # print("projected_sphere", tuple("{:9.5f}".format(v) for v in result_3d["projected_sphere"]["center"]), tuple("{:9.5f}".format(v) for v in result_3d["projected_sphere"]["axes"]), "{:7.5f}".format(result_3d["projected_sphere"]["angle"]))
+            
+            # draw eyeball
+            cv2.ellipse(
+                image_gray,
+                tuple(int(v) for v in projected_sphere["center"]),
+                tuple(int(v) for v in projected_sphere["axes"]),
+                projected_sphere["angle"],
+                0,
+                360,  # start/end angle for drawing
+                (0, 255, 0),  # color (BGR): red
+            )
+            
+            # draw line from center of eyeball to center of pupil
+            cv2.line(
+                image_gray,
+                tuple(int(v) for v in projected_sphere["center"]),
+                tuple(int(v) for v in ellipse_3d["center"]),
+                (0, 255, 0),  # color (BGR): red
+            )
         except:
              pass
         
