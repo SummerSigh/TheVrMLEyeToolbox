@@ -41,9 +41,9 @@ Implemented methods:
 - [X] Pupil Locator CNN Model  
 - [X] RANSAC Contours <----- Currently the best eye tracking system in this repo
 - [X] 2D to 3D Point Infrence (calibration based 3d model fitting)
-- [ ] EMG Facial Interface for Eye Muscle Traking (Hardware will be provided here) 
+- [ ] EMG Facial Interface for Eye Muscle Tracking (Hardware will be provided here) 
 
-**NOTE: Some of these implemented methods will be from other authors and maybe subject to licensing.**
+**NOTE: Some of these implemented methods will be from other authors and may be subject to licensing.**
 
 
 
