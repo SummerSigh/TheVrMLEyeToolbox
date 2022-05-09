@@ -41,7 +41,6 @@ https://dammedia.osram.info/media/bin/osram-dam-2496608/AN002_Details%20on%20pho
 
 Current testing has been performed with loucass003's firmware found here https://github.com/Futurabeast/futura-face-cam
 There has been work on a different firmware by a community member, but that has not been tested by me here https://github.com/lorow/OpenIris
-=======
 
 
 Implemented methods:
@@ -53,7 +52,7 @@ Implemented methods:
 
 
 **NOTE: Some of these implemented methods will be from other authors and may be subject to licensing.**
-====
+===
 ## Quick start guide
 
 For a quick start guide in VRC please refer to **Pupil3dDectectorOSC** folder
