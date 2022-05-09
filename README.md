@@ -60,7 +60,7 @@ If you want to use just the raw 2d algorithm for your own purposes please refer 
 
 
 
-***Citations for the people who make this all possible***
+## Citations for the people who make this all possible
 
 @inproceedings{chaudhary2019ritnet,
   title={RITnet: real-time semantic segmentation of the eye for gaze tracking},
