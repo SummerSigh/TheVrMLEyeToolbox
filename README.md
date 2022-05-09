@@ -20,14 +20,9 @@ Hardware will hopefully be a ESP32-CAM with a 160° FOV IR camera this is not co
 ## ABOUT IR EMMITTER SAFETY
 Please exercise extreme caution when messing around with IR emmitters.
 
-Once safety testing has been completed, links and files will be provided for the emmitters. Please do not try to make or use any emmitters unless you know exactly what you are doing, as it could be very harmful for your eyes if not done correctly. 
-When files and resources are released DO NOT BYPASS ANY SAFETY FEATURES PUT IN PLACE. This can result in a very harmful outcome. 
-The saftey measures were put in place to REDUCE the potential falure risk. All further safety responsibilities are on the user.
-=======
-
-This includes visually checking with an IR camera that the brightness is correct.
-
 **Make sure you are using NON-focused emitters and at around 5 mA total power**
+
+Try visually checking with an IR camera to see if the the brightness is correct. **If you feel any sensation around your while wearing a DIY eye tracker, DO NOT ATTEMPT TO USE THE TRACKER UNTIL YOU HAVE LOWERED THE AMOUNT OF LIGHT COMING FROM THE EMMITERS** 
 
 https://www.ncbi.nlm.nih.gov/labs/pmc/articles/PMC3116568/
 
