@@ -32,6 +32,9 @@ https://www.osha.gov/sites/default/files/training-library_nir_stds_20021011.ppt
 
 https://dammedia.osram.info/media/bin/osram-dam-2496608/AN002_Details%20on%20photobiological%20safety%20of%20LED%20light%20sources.pdf
 
+
+(This research was provided by Prohurtz in their repo: https://github.com/RedHawk989/EyeTrackVR) 
+
 ## Firmware
 Current testing has been with loucass003's firmware found here https://github.com/Futurabeast/futura-face-cam
 There has been work for a different firmware by a community member but that has not been tested by me here https://github.com/lorow/OpenIris
