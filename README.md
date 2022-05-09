@@ -22,7 +22,7 @@ Please exercise extreme caution when messing around with IR emmitters.
 
 **Make sure you are using NON-focused emitters and at around 5 mA total power**
 
-Try visually checking with an IR camera to see if the the brightness is correct. **If you feel any sensation around your while wearing a DIY eye tracker, DO NOT ATTEMPT TO USE THE TRACKER UNTIL YOU HAVE LOWERED THE AMOUNT OF LIGHT COMING FROM THE EMMITERS** 
+Try visually checking with an IR camera to see if the the brightness is correct. **If you feel any sensation around your while wearing a DIY eye tracker, DO NOT ATTEMPT TO USE THE TRACKER UNTIL YOU HAVE LOWERED THE AMOUNT OF LIGHT COMING FROM THE EMMITERS.** Continue process until no heat, tingling, or the sesnation of a bright light is no longer present. 
 
 https://www.ncbi.nlm.nih.gov/labs/pmc/articles/PMC3116568/
 
