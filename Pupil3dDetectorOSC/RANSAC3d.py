@@ -1,7 +1,22 @@
 from threading import Thread
 import cv2
-import numpy as np
+import numpy as np                             
 from pye3dcustom.detector_3d import CameraModel, Detector3D, DetectorMode
+from pythonosc import udp_client
+
+OSCip="127.0.0.1" 
+OSCport=9000 #VR Chat OSC port
+client = udp_client.SimpleUDPClient(OSCip, OSCport)
+
+def vc():
+    vc.height = 1
+    vc.width = 1
+    vc.roicheck = 1
+vc()
+
+
+
+
 
 def fit_rotated_ellipse_ransac(
     data, iter=80, sample_num=10, offset=80    # 80.0, 10, 80
@@ -89,7 +104,7 @@ def fit_rotated_ellipse(data):
 
     return (cx, cy, w, h, theta)
 
-cap = cv2.VideoCapture("demo2.mp4")  # change this to the video you want to test
+cap = cv2.VideoCapture('demo2.mp4')  # change this to the video you want to test
 result_2d = {}
 result_2d_final = {}
 
@@ -98,15 +113,41 @@ frame_number = cap.get(cv2.CAP_PROP_POS_FRAMES)
 fps = cap.get(cv2.CAP_PROP_FPS)
 width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
 height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
+print("width:", width)
+with open("roi.cfg") as calibratefl:
+    lines = calibratefl.readlines()
+    x = float(lines[0].strip())
+    y = float(lines[1].strip())
+    w = float(lines[2].strip())
+    h = float(lines[3].strip())
+    calibratefl.close()
+        #print(cv2.selectROI("image", img, fromCenter=False, showCrosshair=True))
+vc.width = w
+vc.height = h
 
-camera = CameraModel(focal_length=30, resolution=[width,height])
+camera = CameraModel(focal_length=30, resolution=[vc.width,vc.height])
 
 detector_3d = Detector3D(camera=camera, long_term_mode=DetectorMode.blocking)
 
 if cap.isOpened() == False:
     print("Error opening video stream or file")
 while cap.isOpened():
+
+    with open("roi.cfg") as calibratefl:
+        lines = calibratefl.readlines()
+        x = float(lines[0].strip())
+        y = float(lines[1].strip())
+        w = float(lines[2].strip())
+        h = float(lines[3].strip())
+        calibratefl.close()
+
+   # try:
     ret, img = cap.read()
+
+    img = img[int(y): int(y+h), int(x): int(float(x+w))]
+    
+   #print(cv2.selectROI("image", img, fromCenter=False, showCrosshair=True))
+
     frame_number = cap.get(cv2.CAP_PROP_POS_FRAMES)
     fps = cap.get(cv2.CAP_PROP_FPS)
     if ret == True:
@@ -115,7 +156,7 @@ while cap.isOpened():
         image_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
         ret, thresh = cv2.threshold(
-            image_gray, 87, 255, cv2.THRESH_BINARY
+            image_gray, 105, 255, cv2.THRESH_BINARY
         )  # this will need to be adjusted everytime hardwere is changed (brightness of IR, Camera postion, etc)
         opening = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel)
         closing = cv2.morphologyEx(opening, cv2.MORPH_CLOSE, kernel)
@@ -137,13 +178,14 @@ while cap.isOpened():
             result_2d["axes"] = (w, h) 
             result_2d["angle"] = theta * 180.0 / np.pi 
             result_2d_final["ellipse"] = result_2d
-            result_2d_final["diameter"] = w 
+            result_2d_final["diam eter"] = w 
             result_2d_final["location"] = (cx, cy)
             result_2d_final["confidence"] = 0.99
             result_2d_final["timestamp"] = frame_number / fps
             result_3d = detector_3d.update_and_detect(result_2d_final, image_gray)
             ellipse_3d = result_3d["ellipse"]
-            print(result_3d)
+            
+            
             # draw pupil
             cv2.ellipse(
                 image_gray,
@@ -174,11 +216,36 @@ while cap.isOpened():
                 tuple(int(v) for v in ellipse_3d["center"]),
                 (0, 255, 0),  # color (BGR): red
             )
-            #print the x distance between center of eyeball and center of pupil as a float between -1 and 1 (0 is center)
-            print((cx - projected_sphere["center"][0]) / projected_sphere["axes"][0])
+
+
+
+
+            #print the x distance between center of eyeball and center of pupil in a float
+
+
+
             #print the y distance between center of eyeball and center of pupil as a float between -1 and 1 (0 is center)
-            print((cy - projected_sphere["center"][1]) / projected_sphere["axes"][1]) 
-                 
+            xrl = (cx - projected_sphere["center"][0]) / projected_sphere["axes"][0]
+            eyey = (cy - projected_sphere["center"][1]) / projected_sphere["axes"][1]
+            if xrl >= 0:
+                client.send_message("/avatar/parameters/RightEyeX", -abs(xrl))
+                client.send_message("/avatar/parameters/LeftEyeX", -abs(xrl))
+            if xrl <= 0:
+                client.send_message("/avatar/parameters/RightEyeX", abs(xrl))
+                client.send_message("/avatar/parameters/LeftEyeX", abs(xrl))
+
+            if eyey >= 0:
+                print(eyey)
+                client.send_message("/avatar/parameters/EyesY", -abs(eyey))
+                client.send_message("/avatar/parameters/EyesY", -abs(eyey))
+            if eyey <= 0:
+                client.send_message("/avatar/parameters/EyesY", abs(eyey))
+                client.send_message("/avatar/parameters/EyesY", abs(eyey))
+
+            
+
+
+
         except:
              pass
         

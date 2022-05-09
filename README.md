@@ -19,9 +19,12 @@ Hardware will hopefully be a ESP32-CAM with a 160° FOV IR camera this is not co
 
 ## ABOUT IR EMMITTER SAFETY
 Please exercise extreme caution when messing around with IR emmitters.
+
 Once safety testing has been completed, links and files will be provided for the emmitters. Please do not try to make or use any emmitters unless you know exactly what you are doing, as it could be very harmful for your eyes if not done correctly. 
 When files and resources are released DO NOT BYPASS ANY SAFETY FEATURES PUT IN PLACE. This can result in a very harmful outcome. 
 The saftey measures were put in place to REDUCE the potential falure risk. All further safety responsibilities are on the user.
+=======
+
 This includes visually checking with an IR camera that the brightness is correct.
 
 **Make sure you are using NON-focused emitters and at around 5 mA total power**
@@ -32,9 +35,14 @@ https://www.osha.gov/sites/default/files/training-library_nir_stds_20021011.ppt
 
 https://dammedia.osram.info/media/bin/osram-dam-2496608/AN002_Details%20on%20photobiological%20safety%20of%20LED%20light%20sources.pdf
 
+**(This research was provided by Prohurtz in their repo: https://github.com/RedHawk989/EyeTrackVR)**
+
 ## Firmware
+
 Current testing has been performed with loucass003's firmware found here https://github.com/Futurabeast/futura-face-cam
 There has been work on a different firmware by a community member, but that has not been tested by me here https://github.com/lorow/OpenIris
+=======
+
 
 Implemented methods:
 - [X] YoloV5 Iris Detection (ML model is subject to updates)
@@ -43,14 +51,25 @@ Implemented methods:
 - [X] 2D to 3D Point Infrence (calibration based 3d model fitting)
 - [ ] EMG Facial Interface for Eye Muscle Tracking (Hardware will be provided here) 
 
+
 **NOTE: Some of these implemented methods will be from other authors and may be subject to licensing.**
+====
+## Quick start guide
+
+For a quick start guide in VRC please refer to **Pupil3dDectectorOSC** folder
+
+If you want to use the raw aglorithm with 3d pupil fiting for your own purposes look at the **Pupil3dDectector** folder
+
+If you want to use just the raw 2d algorithm for your own purposes please refer to the **RANSAC Eye** folder 
+
+**NOTE: Some of these implemented methods will be from other authors and maybe subject to licencing.**
 
 
 
 
 
 
-***Citations for the people who make this all possible***
+## Citations for the people who make this all possible
 
 @inproceedings{chaudhary2019ritnet,
   title={RITnet: real-time semantic segmentation of the eye for gaze tracking},
