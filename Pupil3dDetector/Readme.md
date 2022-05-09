@@ -23,8 +23,12 @@ __How do I use this?__
 This Algorithm requries 2 main parameters to be set to work 
 
 1. On line 92 please set cv2.VideoCapture() to your desiered source
+
 2. On line 102 please set your focal_length so that the big circle is about the same size of your eyeball (just know your value for this is going to be between 10 - 50) 
-3.In line 118 please set your threshold to the proper value (in the future this is will automated but at the time being you will have to play with the values for good results) 
+
+
+3. In line 118 please set your threshold to the proper value (in the future this is will automated but at the time being you will have to play with the values for good results) 
+
 4. **OPTIONAL** you can set line #5 to diffrent values however before changing these values, please read up on the ransac algorithm. The preset values should be good enough for most use cases though so I suggest you dont play with them. 
 
 ***NOTE, THIS WILL ONLY WORK IN PYTHON 3.6***
