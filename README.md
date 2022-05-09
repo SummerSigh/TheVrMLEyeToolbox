@@ -45,13 +45,13 @@ Implemented methods:
 - [X] 2D to 3D Point Infrence (calibration based 3d model fitting)
 - [ ] EMG Facial Interface for Eye Muscle Tracking (Hardware will be provided here) 
 
-__Quick start guide__
+## Quick start guide
 
 For a quick start guide in VRC please refer to **Pupil3dDectectorOSC** folder
 
-If you want to use the raw aglorithm with 3d for your own purposes look at the **Pupil3dDectector** folder
+If you want to use the raw aglorithm with 3d pupil fiting for your own purposes look at the **Pupil3dDectector** folder
 
-If you want to use just the raw 2d algorithm please refer to the **RANSAC Eye** folder 
+If you want to use just the raw 2d algorithm for your own purposes please refer to the **RANSAC Eye** folder 
 
 **NOTE: Some of these implemented methods will be from other authors and maybe subject to licencing.**
 
