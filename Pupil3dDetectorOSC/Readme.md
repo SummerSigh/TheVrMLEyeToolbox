@@ -1,5 +1,8 @@
 __RANSAC OSC__
 
+(Big thanks to Prohurtz for providing the OSC code snipits! You can find their repo here: https://github.com/RedHawk989/EyeTrackVR) 
+
+
 *What does this do?*
 
 This takes the already existing 3D RANSAC implementation and gives it OSC powers for full VRCft intergration!
