@@ -1,0 +1,6 @@
+joblib==1.1.0
+msgpack_python==0.5.6
+numpy==1.19.5
+opencv_python==4.5.5.64
+python_osc==1.8.0
+sortedcontainers==2.4.0
