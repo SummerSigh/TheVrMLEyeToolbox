@@ -1,25 +1,23 @@
-***DISCLAIMER: I DO NOT OWN THE LINCENCE TO THIS CODE. 
-Distributed under the terms of the GNU
-Lesser General Public License (LGPL v3.0).
-See COPYING and COPYING.LESSER for license details. ***
-
-Copyright (C) 2018 Pupil Labs
-
-All Rights Reserved.
-
-
-**This is the Pye3d system by Pupil Labs**
-
+__RANSAC OSC__
 
 *What does this do?*
 
-This takes in data regarding 2d ellipse and point data (plus the focal_length, and resolution of that ROI croped image and outputs a 3d gaze vector! 
+This takes the already existing 3D RANSAC implementation and goves it OSC powers for full VRC intergration!
 
-We can also improve the predictions of RANSAC by excluding all false posotives outside the eyeball
+*How do I set this up?*
 
-*How do I use this?* 
+1. install requirements.txt with ``` pip install -r requirements.txt ```
 
-Please refer to RANSAC3d.py for an implemetation example
+2. In SetROI.py set cv2.VideoCapture() line 5 to your Esp32 url stream, webcam (use cv2.VideoCapture(0)), or a video! 
 
-***NOTE, THIS WILL ONLY WORK IN PYTHON 3.6***
+3. Click and drag to set ROI on window that pops up, once your satisfied press ENTER. (The program will then exit) 
 
+4. Set cv2.VideoCapture() on line 107 to your Esp32 url stream, webcam (use cv2.VideoCapture(0)), or a video. 
+
+5. Open up VRC with your OSC compatible avatar (make sure to turn on OSC by going to the radial menu ----> options ----> OSC ----> hit the Enable button)
+  NOTE: If you cant get/find an OSC avatar go to "jerrys mod" in vrc and get one there
+
+6. Run the program and enjoy eye tracking in VRC! 
+
+_NOTE THIS WILL ONLY RUN IN PYTHON 3.6!!!_
+ 
