@@ -17,11 +17,9 @@ This takes in data regarding 2d ellipse and point data (plus the focal_length, a
 
 We can also improve the predictions of RANSAC by excluding all false posotives outside the eyeball
 
-*How do I use this?* 
-
-Please refer to RANSAC3d.py for an implemetation example
 
 __How do I use this?__
+
 This Algorithm requries 2 main parameters to be set to work 
 
 1. On line 92 please set cv2.VideoCapture() to your desiered source
