@@ -46,6 +46,7 @@ Implemented methods:
 - [ ] EMG Facial Interface for Eye Muscle Tracking (Hardware will be provided here) 
 
 __Quick start guide__
+
 For a quick start guide in VRC please refer to **Pupil3dDectectorOSC** folder
 
 If you want to use the raw aglorithm with 3d for your own purposes look at the **Pupil3dDectector** folder
