@@ -2,7 +2,7 @@ __RANSAC OSC__
 
 *What does this do?*
 
-This takes the already existing 3D RANSAC implementation and gives it OSC powers for full VRC intergration!
+This takes the already existing 3D RANSAC implementation and gives it OSC powers for full VRCft intergration!
 
 *How do I set this up?*
 
