@@ -36,8 +36,8 @@ https://dammedia.osram.info/media/bin/osram-dam-2496608/AN002_Details%20on%20pho
 (This research was provided by Prohurtz in their repo: https://github.com/RedHawk989/EyeTrackVR) 
 
 ## Firmware
-Current testing has been with loucass003's firmware found here https://github.com/Futurabeast/futura-face-cam
-There has been work for a different firmware by a community member but that has not been tested by me here https://github.com/lorow/OpenIris
+Current testing has been with loucass003's firmware in https://github.com/Futurabeast/futura-face-cam
+There has been work for a different firmware by a community member but that has not been tested in the context of this software https://github.com/lorow/OpenIris
 
 Implemented methods:
 - [X] YoloV5 Iris Detection (ML model is subject to updates)
