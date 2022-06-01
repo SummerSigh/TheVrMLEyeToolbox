@@ -27,8 +27,7 @@ Here is the RANSAC implementation from https://github.com/SummerSigh/TheVrMLEyeT
 ```markdown
 def fit_rotated_ellipse_ransac(
     data, iter=80, sample_num=10, offset=80    # 80.0, 10, 80
-):  # before changing these values, please read up on the ransac algorithm
-    # However if you want to change any value just know that higher iterations will make processing frames slower
+):
     count_max = 0
     effective_sample = None
 
@@ -65,16 +64,8 @@ def fit_rotated_ellipse_ransac(
             effective_sample = ran_sample
 
     return fit_rotated_ellipse(effective_sample)
-
 ```
+### Looking at the code block:
 
+On line #2 of the code block we see all of the model parameters, with our iterations being how many times we run the algorithm over a set amount of data, sample num being the amount of data frames we capture before running a sample. Offeset sets the threshold for our ellipse model defined in line #53, and data is simply our input data.
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/SummerSigh/TheVrMLEyeToolbox/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
