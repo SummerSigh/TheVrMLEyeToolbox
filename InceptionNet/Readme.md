@@ -1,4 +1,4 @@
-***This is a model implementaion form https://github.com/isohrab/Pupil-locator***
+***This is a model implementaion from https://github.com/isohrab/Pupil-locator***
 
 **what is this Model**
 
