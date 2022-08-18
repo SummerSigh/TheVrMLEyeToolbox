@@ -6,15 +6,14 @@ import matplotlib.patches as ptch
 import cv2
 from skimage.measure import label, regionprops
 from tensorflow.keras.models import load_model
+import tensorflow as tf
 import time
 MODELPATH = 'meye.hdf5'
-
+tf.config.threading.set_intra_op_parallelism_threads(2)
 model = load_model(MODELPATH)
 VIDEOPATH = "demo2.mp4"
 cap = cv2.VideoCapture(VIDEOPATH)
-THRESHOLD = 0.1 # probability threshold for image binarization
-IMCLOSING = 13 # pixel radius of circular kernel for morphological closing
-
+c
 def morphProcessing(sourceImg):
     # Binarize 
     binarized = sourceImg > THRESHOLD
@@ -41,6 +40,7 @@ def morphProcessing(sourceImg):
 
 while cap.isOpened(): 
     ret,frame = cap.read()
+    start = time.time()
     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     frame = cv2.resize(frame, (128, 128))
     networkInput = frame.astype(np.float32) / 255.0
@@ -63,8 +63,17 @@ while cap.isOpened():
         pass
     #put mask on frame
     frame = cv2.cvtColor(frame, cv2.COLOR_GRAY2BGR)
-    frame[:,:,0] = morphedMask
+    #fit a ellipse to the mask using the contour of the biggest region
+    try:
+        contours, hierarchy = cv2.findContours(morphedMask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        cnt = contours[0]
+        ellipse = cv2.fitEllipse(cnt)
+        cv2.ellipse(frame, ellipse, (0,255,0), 2)
+    except:
+        pass
     cv2.imshow("frame", frame)
+    endtime = time.time()
+    print("fps: " + str(1/(endtime-start)))
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
