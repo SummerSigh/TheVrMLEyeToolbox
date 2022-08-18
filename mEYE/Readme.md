@@ -1,6 +1,6 @@
 ## mEYE 
 
-**A re implementaion of https://github.com/fabiocarrara/meye **
+**A re implementaion of https://github.com/fabiocarrara/meye**
 
 ***What is mEYE***
 
