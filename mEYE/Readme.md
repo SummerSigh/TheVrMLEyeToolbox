@@ -6,7 +6,16 @@
 
 mEYE is a small uNET model desinged for pupil segmentation and blink estemation. 
 
-***Why use mEYE?**
+***mEYE features***
 
-Currently, it's not only great at predicting where the pupil is, but also if the use has blinked or not. On top of that, it allows for automatic ROI croping of the pupil 
-so that other methods such as RANSAC have an easier time in finding the pupil. 
+1) Pupil localization
+
+2) Pupil Segmentaion 
+
+3) Semi Automatic ROI croping 
+
+4) Blink Estemation 
+
+5) Fast, and lightweight (with model size being 0.1 MB) 
+
+
