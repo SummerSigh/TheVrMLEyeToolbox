@@ -11,10 +11,10 @@ import time
 MODELPATH = 'meye.hdf5'
 tf.config.threading.set_intra_op_parallelism_threads(2)
 model = load_model(MODELPATH)
-VIDEOPATH = "demo2.mp4"
+VIDEOPATH = "demo3.mp4"
 cap = cv2.VideoCapture(VIDEOPATH)
-c
-def morphProcessing(sourceImg):
+THRESHOLD = 30
+def morphProcessing(sourceImg, THRESHOLD):
     # Binarize 
     binarized = sourceImg > THRESHOLD
     # Divide in regions and keep only the biggest
@@ -47,7 +47,7 @@ while cap.isOpened():
     networkInput = networkInput[None, :, :, None]
     mask, info = model(networkInput)
     prediction = mask[0,:,:,0]
-    morphedMask, centroid = morphProcessing(prediction)
+    morphedMask, centroid = morphProcessing(prediction,THRESHOLD)
     eyeProbability = info[0,0]
     blinkProbability = info[0,1]
     print("eyeProbability:" + str(eyeProbability))

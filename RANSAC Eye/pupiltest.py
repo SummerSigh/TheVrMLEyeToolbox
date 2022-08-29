@@ -1,9 +1,7 @@
 import cv2
 import numpy as np
-
-
 def fit_rotated_ellipse_ransac(
-    data, iter=80, sample_num=10, offset=80    # 80.0, 10, 80
+    data, iter=100, sample_num=10, offset=80    # 80.0, 10, 80
 ):  # before changing these values, please read up on the ransac algorithm
     # However if you want to change any value just know that higher iterations will make processing frames slower
     count_max = 0
@@ -89,7 +87,7 @@ def fit_rotated_ellipse(data):
 
     return (cx, cy, w, h, theta)
 
-cap = cv2.VideoCapture("index.mp4")  # change this to the video you want to test
+cap = cv2.VideoCapture("demo2.mp4")  # change this to the video you want to test
 if cap.isOpened() == False:
     print("Error opening video stream or file")
 while cap.isOpened():
@@ -98,9 +96,16 @@ while cap.isOpened():
         newImage2 = img.copy()
         kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
         image_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        #remove 10 pixels from the bottom of the image
+        image_gray = image_gray[0:img.shape[0]-10, :]
+        min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(image_gray)
+        #find threshold value
+        threshold_value = min_val + 20
         ret, thresh = cv2.threshold(
-            image_gray, 120, 255, cv2.THRESH_BINARY
+            image_gray, threshold_value, 255, cv2.THRESH_BINARY
         )  # this will need to be adjusted everytime hardwere is changed (brightness of IR, Camera postion, etc)
+        #find the darkest point in the image using minMaxLoc
+        #plot the darkest point on the image
         opening = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel)
         closing = cv2.morphologyEx(opening, cv2.MORPH_CLOSE, kernel)
         image = 255 - closing
@@ -110,28 +115,34 @@ while cap.isOpened():
         hull = []
         for i in range(len(contours)):
             hull.append(cv2.convexHull(contours[i], False))
-        try:
-            cv2.drawContours(img, contours, -1, (255, 0, 0), 1)
-            cnt = sorted(hull, key=cv2.contourArea)
-            maxcnt = cnt[-1]
-            ellipse = cv2.fitEllipse(maxcnt)
-            cx, cy, w, h, theta = fit_rotated_ellipse_ransac(maxcnt.reshape(-1, 2))
-            print(cx, cy)
-            cv2.circle(newImage2, (int(cx), int(cy)), 2, (0, 0, 255), -1)
-            cx1, cy1, w1, h1, theta1 = fit_rotated_ellipse(maxcnt.reshape(-1, 2))
-            cv2.ellipse(
-                newImage2,
-                (int(cx), int(cy)),
-                (int(w), int(h)),
-                theta * 180.0 / np.pi,
-                0.0,
-                360.0,
-                (50, 250, 200),
-                1,
-            )
-                 
-        except:
-            pass
+        # try:
+        #     cv2.drawContours(img, contours, -1, (255, 0, 0), 1)
+        #     cnt = sorted(hull, key=cv2.contourArea)
+        #     maxcnt = cnt[-1]
+        #     ellipse = cv2.fitEllipse(maxcnt)
+        #     cx, cy, w, h, theta = fit_rotated_ellipse_ransac(maxcnt.reshape(-1, 2))
+        #     print(cx, cy)
+        #     cv2.circle(newImage2, (int(cx), int(cy)), 2, (0, 0, 255), -1)
+        #     cx1, cy1, w1, h1, theta1 = fit_rotated_ellipse(maxcnt.reshape(-1, 2))
+        #     cv2.ellipse(
+        #         newImage2,
+        #         (int(cx), int(cy)),
+        #         (int(w), int(h)),
+        #         theta * 180.0 / np.pi,
+        #         0.0,
+        #         360.0,
+        #         (50, 250, 200),
+        #         1,
+        #     )       
+        # except:
+        #     pass
+        cv2.circle(newImage2, min_loc, 2, (0, 0, 255), -1)
         cv2.imshow("Ransac", newImage2)
+        cv2.imshow("Thresh", thresh)
+        #make it into a video
+
         if cv2.waitKey(1) & 0xFF == ord("q"):
             break
+out.release()
+cap.release()
+cv2.destroyAllWindows()

@@ -89,7 +89,7 @@ def fit_rotated_ellipse(data):
 
     return (cx, cy, w, h, theta)
 
-cap = cv2.VideoCapture("demo2.mp4")  # change this to the video you want to test
+cap = cv2.VideoCapture("demo3.mp4")  # change this to the video you want to test
 result_2d = {}
 result_2d_final = {}
 
