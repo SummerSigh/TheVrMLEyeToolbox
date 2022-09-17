@@ -83,29 +83,40 @@ def fit_rotated_ellipse(data):
     ellipse_model = lambda x, y: a * x**2 + b * x * y + c * y**2 + d * x + e * y + f
 
     error_sum = np.sum([ellipse_model(x, y) for x, y in data])
-    print("fitting error = %.3f" % (error_sum))
+    #print("fitting error = %.3f" % (error_sum))
 
     return (cx, cy, w, h, theta)
 
-cap = cv2.VideoCapture("somevideo.mp4")  # change this to the video you want to test
+cap = cv2.VideoCapture("test4.mp4")  # change this to the video you want to test
 if cap.isOpened() == False:
     print("Error opening video stream or file")
+
+
+Start = True
+avg = 0
 while cap.isOpened():
     ret, img = cap.read()
     if ret == True:
         newImage2 = img.copy()
+        img = cv2.GaussianBlur(img, (5,5), 0)
         kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
         image_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         image_gray = image_gray[0:img.shape[0]-10, :]
-        min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(image_gray) #find the darkest point in the image using minMaxLoc
-        thresh_add = 14  # this will need to be adjusted everytime hardware is changed (brightness of IR, Camera postion, etc)
+        # this will need to be adjusted everytime hardware is changed (brightness of IR, Camera postion, etc)m
+        min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(image_gray)
+        #crop 15% sqare around min_loc
+        image_gray = image_gray[max_loc[1]-int(0.5*max_loc[1]):max_loc[1]+int(0.5*max_loc[1]), max_loc[0]-int(0.5*max_loc[0]):max_loc[0]+int(0.5*max_loc[0])]
+        thresh_add = 10
         threshold_value = min_val + thresh_add
         ret, thresh = cv2.threshold(
             image_gray, threshold_value, 255, cv2.THRESH_BINARY
         )  
-        opening = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel)
-        closing = cv2.morphologyEx(opening, cv2.MORPH_CLOSE, kernel)
-        image = 255 - closing
+        try:
+            opening = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel)
+            closing = cv2.morphologyEx(opening, cv2.MORPH_CLOSE, kernel)
+            image = 255 - closing
+        except:
+            image = 255-image_gray
         contours, hierarchy = cv2.findContours(
             image, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE
         )
@@ -118,9 +129,9 @@ while cap.isOpened():
             maxcnt = cnt[-1]
             ellipse = cv2.fitEllipse(maxcnt)
             cx, cy, w, h, theta = fit_rotated_ellipse_ransac(maxcnt.reshape(-1, 2))
-            print(cx, cy)
+            #print(cx, cy)
             cv2.circle(newImage2, (int(cx), int(cy)), 2, (0, 0, 255), -1)
-            cx1, cy1, w1, h1, theta1 = fit_rotated_ellipse(maxcnt.reshape(-1, 2))
+            #cx1, cy1, w1, h1, theta1 = fit_rotated_ellipse(maxcnt.reshape(-1, 2))
             cv2.ellipse(
                 newImage2,
                 (int(cx), int(cy)),
@@ -130,11 +141,18 @@ while cap.isOpened():
                 360.0,
                 (50, 250, 200),
                 1,
-            )       
+            )     
+            #once a pupil is found, crop 100x100 around it
+  
+            x1 = int(cx) - 50
+            x2 = int(cx) + 50
+            y1 = int(cy) - 50
+            y2 = int(cy) + 50
+            img = newImage2[y1:y2, x1:x2]
         except:
             pass
         cv2.circle(newImage2, min_loc, 2, (0, 0, 255), -1) # the point of the darkest area in the image
-        cv2.imshow("Ransac", newImage2)
+        cv2.imshow("Ransac", image_gray)
         cv2.imshow("Thresh", thresh)
         #make it into a video
 

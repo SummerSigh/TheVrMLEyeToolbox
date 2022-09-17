@@ -113,41 +113,15 @@ frame_number = cap.get(cv2.CAP_PROP_POS_FRAMES)
 fps = cap.get(cv2.CAP_PROP_FPS)
 width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
 height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
-print("width:", width)
-with open("roi.cfg") as calibratefl:
-    lines = calibratefl.readlines()
-    x = float(lines[0].strip())
-    y = float(lines[1].strip())
-    w = float(lines[2].strip())
-    h = float(lines[3].strip())
-    calibratefl.close()
-        #print(cv2.selectROI("image", img, fromCenter=False, showCrosshair=True))
-vc.width = w
-vc.height = h
 
-camera = CameraModel(focal_length=30, resolution=[vc.width,vc.height])
+camera = CameraModel(focal_length=30, resolution=[width,height])
 
-detector_3d = Detector3D(camera=camera, long_term_mode=DetectorMode.blocking)
+detector_3d = Detector3D(camera=camera)
 
 if cap.isOpened() == False:
     print("Error opening video stream or file")
 while cap.isOpened():
-
-    with open("roi.cfg") as calibratefl:
-        lines = calibratefl.readlines()
-        x = float(lines[0].strip())
-        y = float(lines[1].strip())
-        w = float(lines[2].strip())
-        h = float(lines[3].strip())
-        calibratefl.close()
-
-   # try:
     ret, img = cap.read()
-
-    img = img[int(y): int(y+h), int(x): int(float(x+w))]
-    
-   #print(cv2.selectROI("image", img, fromCenter=False, showCrosshair=True))
-
     frame_number = cap.get(cv2.CAP_PROP_POS_FRAMES)
     fps = cap.get(cv2.CAP_PROP_FPS)
     if ret == True:
