@@ -1,11 +1,6 @@
-from cgitb import small
-from re import S
 import cv2
 import numpy as np
 import scipy.signal as sp
-import scipy.interpolate as spint
-import time
-import matplotlib.pyplot as plt
 
 """By Summer#2406: CSCpupil (Countor Sample Consensus for Pupil detection)"""
 cap = cv2.VideoCapture("pro.mp4")  # change this to the video you want to test
