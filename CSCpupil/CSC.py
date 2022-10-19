@@ -47,7 +47,7 @@ while cap.isOpened():
         edges = cv2.morphologyEx(edges, cv2.MORPH_CLOSE, eyelashes)
         edges = cv2.morphologyEx(edges, cv2.MORPH_CLOSE, eyelashes)
         contouredge, hierarchy = cv2.findContours(edges, cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
-        #pupil criteria for contour fitting or the "Consensus" part of the algorithm
+        #pupil criteria for contour fitting or the "Consensus" part of the algorithm (NOT DONE, current state is very basic) 
         try: 
             for countor in contouredge:
                 pem  = cv2.arcLength(countor,False)
