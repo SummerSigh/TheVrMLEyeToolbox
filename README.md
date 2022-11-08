@@ -39,10 +39,10 @@ There has been work on a different firmware by a community member, but that has 
 
 
 Implemented methods:
-- [X] YoloV5 Iris Detection (ML model is subject to updates)
-- [X] Pupil Locator CNN Model  
-- [X] RANSAC Eye <----- Currently the best eye tracking 2d system in this repo
-- [X] 2D to 3D Point Infrence (calibration based 3d model fitting)
+- [X] YoloV5 Iris Detection (Deprecated)
+- [X] Pupil Locator CNN Model (Updates Soon) 
+- [X] RANSAC Eye <----- Currently the best eye tracking 2d system in this repo (subject to QOL and Enchancements) 
+- [X] 2D to 3D Point Infrence (calibration based 3d model fitting. Not a tracking method)
 - [ ] EMG Facial Interface for Eye Muscle Tracking (Hardware will be provided here) 
 
 
