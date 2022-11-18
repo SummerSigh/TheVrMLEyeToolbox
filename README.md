@@ -34,8 +34,7 @@ https://dammedia.osram.info/media/bin/osram-dam-2496608/AN002_Details%20on%20pho
 
 ## Firmware
 
-Current testing has been performed with loucass003's firmware found here https://github.com/Futurabeast/futura-face-cam
-There has been work on a different firmware by a community member, but that has not been tested by me here https://github.com/lorow/OpenIris
+Current testing has been performed with https://github.com/lorow/OpenIris ! Please give lorow a star for their amazing work!
 
 
 Implemented methods:
